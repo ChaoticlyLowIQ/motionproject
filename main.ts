@@ -4,11 +4,9 @@ namespace SpriteKind {
     export const ground = SpriteKind.create()
     export const bird = SpriteKind.create()
 }
-scene.onHitWall(SpriteKind.Player, function (sprite, location) {
-	
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     bird.vy = -100
+    bird.vx = 50
 })
 sprites.onOverlap(SpriteKind.bird, SpriteKind.money, function (sprite, otherSprite) {
     otherSprite.destroy(effects.spray, 100)
