@@ -2,28 +2,22 @@ namespace SpriteKind {
     export const hero = SpriteKind.create()
     export const money = SpriteKind.create()
     export const ground = SpriteKind.create()
+    export const bird = SpriteKind.create()
 }
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+	
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    jeff.vy = -80
-    pause(300)
-    jeff.vy = 80
-    pause(300)
-    jeff.vy = 0
+    bird.vy = -100
 })
-sprites.onOverlap(SpriteKind.hero, SpriteKind.Enemy, function (sprite, otherSprite) {
-    scene.cameraShake(4, 500)
-    info.changeLifeBy(-1)
-    otherSprite.destroy(effects.disintegrate, 500)
-    sprite.x += -10
-})
-sprites.onOverlap(SpriteKind.hero, SpriteKind.money, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.bird, SpriteKind.money, function (sprite, otherSprite) {
     otherSprite.destroy(effects.spray, 100)
     info.changeScoreBy(1)
     music.baDing.play()
 })
-let jeff: Sprite = null
+let bird: Sprite = null
 scene.setBackgroundColor(9)
-jeff = sprites.create(img`
+bird = sprites.create(img`
     . . . . . . f f f f . . . . . . 
     . . . . f f f 2 2 f f f . . . . 
     . . . f f f 2 2 2 2 f f f . . . 
@@ -40,35 +34,9 @@ jeff = sprites.create(img`
     . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
     . . . . . f f f f f f . . . . . 
     . . . . . f f . . f f . . . . . 
-    `, SpriteKind.hero)
-jeff.setPosition(10, 70)
-let badguy = sprites.create(img`
-    ........................
-    ........................
-    ........................
-    ........................
-    ..........ffff..........
-    ........ff1111ff........
-    .......fb111111bf.......
-    .......f11111111f.......
-    ......fd11111111df......
-    ......fd11111111df......
-    ......fddd1111dddf......
-    ......fbdbfddfbdbf......
-    ......fcdcf11fcdcf......
-    .......fb111111bf.......
-    ......fffcdb1bdffff.....
-    ....fc111cbfbfc111cf....
-    ....f1b1b1ffff1b1b1f....
-    ....fbfbffffffbfbfbf....
-    .........ffffff.........
-    ...........fff..........
-    ........................
-    ........................
-    ........................
-    ........................
-    `, SpriteKind.Enemy)
-badguy.setPosition(100, 70)
+    `, SpriteKind.bird)
+bird.setPosition(10, 70)
+bird.ay = 300
 info.setLife(3)
 let coin = sprites.create(img`
     . . . . . . . . . . . . . . . . 
@@ -89,6 +57,10 @@ let coin = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.money)
 info.setScore(0)
+scene.cameraFollowSprite(bird)
+tiles.setTilemap(tilemap`level2`)
 game.onUpdate(function () {
-    jeff.x += controller.dx()
+    if (bird.bottom > 159 || bird.top < 1) {
+        game.over(false)
+    }
 })
