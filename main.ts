@@ -12,7 +12,7 @@ scene.onOverlapTile(SpriteKind.bird, assets.tile`myTile0`, function (sprite, loc
 })
 scene.onHitWall(SpriteKind.bird, function (sprite, location) {
     info.changeLifeBy(-1)
-    bird.setPosition(70, 50)
+    bird.setPosition(5, randint(20, 100))
 })
 let bird: Sprite = null
 game.splash("press space to jump")
@@ -53,6 +53,7 @@ bird = sprites.create(img`
     `, SpriteKind.bird)
 bird.ay = 300
 bird.vx = 75
+bird.setPosition(5, randint(20, 100))
 info.setLife(3)
 scene.cameraFollowSprite(bird)
 tiles.setTilemap(tilemap`level2`)
