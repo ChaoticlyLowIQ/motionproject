@@ -4,19 +4,26 @@ namespace SpriteKind {
     export const ground = SpriteKind.create()
     export const bird = SpriteKind.create()
 }
+scene.onOverlapTile(SpriteKind.bird, assets.tile`myTile5`, function (sprite, location) {
+    game.over(true)
+    effects.clouds.endScreenEffect()
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     bird.vy = -100
 })
 scene.onOverlapTile(SpriteKind.bird, assets.tile`myTile0`, function (sprite, location) {
     game.over(true)
+    effects.clouds.endScreenEffect()
 })
 scene.onHitWall(SpriteKind.bird, function (sprite, location) {
     info.changeLifeBy(-1)
-    bird.setPosition(5, randint(20, 100))
+    life += -1
+    bird.setPosition(5, randint(20, 50))
 })
 let bird: Sprite = null
-game.splash("press space to jump")
-scene.setBackgroundColor(9)
+game.splash("Press 'A' to jump")
+info.setLife(3)
+let life = 3
 bird = sprites.create(img`
     ................................
     ................................
@@ -53,13 +60,15 @@ bird = sprites.create(img`
     `, SpriteKind.bird)
 bird.ay = 300
 bird.vx = 75
-bird.setPosition(5, randint(20, 100))
-info.setLife(3)
+bird.setPosition(5, randint(20, 50))
+scene.setBackgroundColor(9)
 scene.cameraFollowSprite(bird)
 tiles.setTilemap(tilemap`level2`)
 game.onUpdate(function () {
     if (bird.bottom > 159 || bird.top < 1) {
-        game.over(false)
+        info.changeLifeBy(-1)
+        life += -1
+        bird.setPosition(5, randint(20, 100))
     }
     if (bird.vx < 75) {
         bird.vx = 75
