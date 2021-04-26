@@ -17,7 +17,6 @@ scene.onOverlapTile(SpriteKind.bird, assets.tile`myTile0`, function (sprite, loc
 })
 scene.onHitWall(SpriteKind.bird, function (sprite, location) {
     info.changeLifeBy(-1)
-    life += -1
     bird.setPosition(5, randint(20, 50))
 })
 let bird: Sprite = null
@@ -67,7 +66,6 @@ tiles.setTilemap(tilemap`level2`)
 game.onUpdate(function () {
     if (bird.bottom > 159 || bird.top < 1) {
         info.changeLifeBy(-1)
-        life += -1
         bird.setPosition(5, randint(20, 100))
     }
     if (bird.vx < 75) {
